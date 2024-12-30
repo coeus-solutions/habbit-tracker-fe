@@ -7,11 +7,7 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main: 'index.html',
-        background: 'src/background.ts'
-      },
-      output: {
-        entryFileNames: '[name].js'
+        main: 'index.html'
       }
     }
   }
