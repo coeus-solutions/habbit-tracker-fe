@@ -7,6 +7,8 @@ interface HabitState {
   loading: boolean;
   error: string | null;
   completions: Record<string, Array<{ date: string }>>;
+  fontSize: number;
+  lastFetchedCompletions: string | null;
 }
 
 const initialState: HabitState = {
@@ -14,6 +16,8 @@ const initialState: HabitState = {
   loading: false,
   error: null,
   completions: {},
+  fontSize: 16,
+  lastFetchedCompletions: null,
 };
 
 export const fetchHabits = createAsyncThunk<Habit[]>(

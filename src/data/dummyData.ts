@@ -1,4 +1,4 @@
-import { addDays, subDays, format } from 'date-fns';
+import { subDays, format } from 'date-fns';
 
 // Generate last 30 days of completion data
 export const generateDummyCompletionData = () => {

@@ -3,6 +3,8 @@ export interface SignInData {
   password: string;
 }
 
+export type SignInRequest = SignInData;
+
 export interface SignUpData {
   email: string;
   password: string;
