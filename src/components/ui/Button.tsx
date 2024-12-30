@@ -1,5 +1,4 @@
 import React from 'react';
-import { AnimatedContainer } from './motion/AnimatedContainer';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger';
@@ -15,7 +14,7 @@ export const Button: React.FC<ButtonProps> = ({
   icon,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 transition-transform active:scale-95';
   
   const variants = {
     primary: 'bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500',
@@ -30,14 +29,12 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <AnimatedContainer
-      as="button"
-      whileTap={{ scale: 0.98 }}
+    <button
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {icon && <span className="mr-2">{icon}</span>}
       {children}
-    </AnimatedContainer>
+    </button>
   );
 };

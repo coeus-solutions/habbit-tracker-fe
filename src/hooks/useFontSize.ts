@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 
 export const useFontSize = () => {
-  const fontSize = useSelector((state: RootState) => state.settings.appearance.fontSize);
+  const fontSize = useSelector((state: RootState) => state.settings?.appearance?.fontSize ?? 'medium');
   
   const getFontSizeClass = (type: 'base' | 'heading' | 'small'): string => {
     switch (fontSize) {

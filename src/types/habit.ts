@@ -3,20 +3,20 @@ export interface Habit {
   name: string;
   description?: string;
   category: string;
-  createdAt: string; // Changed to string for Redux store
-  reminderTime?: string;
+  created_at: string;
   color: string;
-  isArchived: boolean;
-  streakCount: number;
-  longestStreak: number;
-  lastCompleted?: string; // Changed to string for Redux store
+  is_archived: boolean;
+  streak_count: number;
+  longest_streak: number;
+  user_id: string;
+  entries?: HabitEntry[];
 }
 
 export interface HabitEntry {
   id: string;
-  habitId: string;
-  completedAt: string; // Changed to string for Redux store
-  date: string; // Changed to string for Redux store
+  habit_id: string;
+  completed_at: string;
+  date: string;
   notes?: string;
   synced: boolean;
 }

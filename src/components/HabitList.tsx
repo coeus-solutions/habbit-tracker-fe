@@ -3,22 +3,21 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { format } from 'date-fns';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { Habit, HabitEntry } from '../utils/api';
 
-export const HabitList: React.FC = () => {
-  const { habits, entries } = useSelector((state: RootState) => state.habits);
+const HabitList: React.FC = () => {
+  const habits = useSelector((state: RootState) => state.habits.habits);
   const today = new Date();
 
-  const isHabitCompletedToday = (habitId: string) => {
-    return entries.some(entry => 
-      entry.habitId === habitId && 
-      format(entry.date, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd')
-    );
+  const isHabitCompletedToday = (habit: Habit & { entries?: HabitEntry[] }) => {
+    const todayStr = format(today, 'yyyy-MM-dd');
+    return habit.entries?.some(entry => format(new Date(entry.completed_at), 'yyyy-MM-dd') === todayStr) ?? false;
   };
 
   return (
     <div className="space-y-4">
       <h2 className="text-xl font-semibold mb-4">Today's Habits</h2>
-      {habits.filter(habit => !habit.isArchived).map(habit => (
+      {habits.filter(habit => !habit.is_archived).map(habit => (
         <div
           key={habit.id}
           className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
@@ -30,9 +29,9 @@ export const HabitList: React.FC = () => {
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-sm">
-              Streak: {habit.streakCount} days
+              Streak: {habit.streak_count} days
             </span>
-            {isHabitCompletedToday(habit.id) ? (
+            {isHabitCompletedToday(habit) ? (
               <CheckCircleIcon className="w-8 h-8 text-green-500" />
             ) : (
               <XCircleIcon className="w-8 h-8 text-gray-300" />
@@ -43,3 +42,5 @@ export const HabitList: React.FC = () => {
     </div>
   );
 };
+
+export { HabitList };

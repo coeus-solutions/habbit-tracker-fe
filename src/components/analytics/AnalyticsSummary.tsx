@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 import { FireIcon, CheckCircleIcon, ChartBarIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { habitsApi } from '../../utils/api';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Header } from '../components/layout/Header';
 import { AnalyticsSummary } from '../components/analytics/AnalyticsSummary';
 import { QuickAddHabit } from '../components/habits/QuickAddHabit';

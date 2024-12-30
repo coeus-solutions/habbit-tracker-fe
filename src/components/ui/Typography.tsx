@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useFontSize } from '../../hooks/useFontSize';
 
 interface TypographyProps {

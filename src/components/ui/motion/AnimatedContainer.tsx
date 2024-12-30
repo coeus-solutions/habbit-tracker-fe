@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion, HTMLMotionProps } from 'framer-motion';
 
 interface AnimatedContainerProps extends HTMLMotionProps<"div"> {

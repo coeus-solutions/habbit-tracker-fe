@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { AnimatedContainer } from '../ui/motion/AnimatedContainer';
 
 interface SettingSectionProps {

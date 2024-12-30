@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addHabit, updateHabit } from '../../store/habitSlice';
+import { createHabit, updateHabit } from '../../store/habitSlice';
 import { db } from '../../db/database';
 import { v4 as uuidv4 } from 'uuid';
 import { ColorPicker } from './ColorPicker';
-import { Habit } from '../../types/habit';
+import type { Habit } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch } from '../../store';
 
 interface AddHabitFormProps {
   habit?: Habit;
 }
 
 export const AddHabitForm: React.FC<AddHabitFormProps> = ({ habit }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [name, setName] = useState(habit?.name ?? '');
   const [category, setCategory] = useState(habit?.category ?? '');
@@ -33,33 +34,28 @@ export const AddHabitForm: React.FC<AddHabitFormProps> = ({ habit }) => {
 
       try {
         await db.habits.update(habit.id, updatedHabit);
-        dispatch(updateHabit(updatedHabit));
+        dispatch(updateHabit({ id: habit.id, data: updatedHabit }));
         navigate('/');
       } catch (error) {
         console.error('Error updating habit:', error);
       }
     } else {
-      const now = new Date();
-      const newHabit = {
+      const newHabit: Habit = {
         id: uuidv4(),
         name,
         category,
         color,
         description,
-        createdAt: now.toISOString(), // Convert to ISO string for Redux
-        isArchived: false,
-        streakCount: 0,
-        longestStreak: 0,
+        created_at: new Date().toISOString(),
+        is_archived: false,
+        streak_count: 0,
+        longest_streak: 0,
+        user_id: '1',
       };
 
       try {
-        // Store as Date in IndexedDB
-        await db.habits.add({
-          ...newHabit,
-          createdAt: now,
-        });
-        // Store as ISO string in Redux
-        dispatch(addHabit(newHabit));
+        await db.habits.add(newHabit);
+        dispatch(createHabit(newHabit));
         navigate('/');
       } catch (error) {
         console.error('Error adding habit:', error);

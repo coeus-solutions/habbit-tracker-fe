@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { habitsApi, HabitPerformance } from '../../utils/api';
+import { habitsApi } from '../../utils/api';
 
-export const HabitStats = () => {
+interface HabitPerformance {
+  id: string;
+  name: string;
+  category: string;
+  completion_rate: number;
+  streak_count: number;
+  longest_streak: number;
+}
+
+export const HabitStats: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [performance, setPerformance] = useState<HabitPerformance[]>([]);
 

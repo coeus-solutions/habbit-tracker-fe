@@ -37,7 +37,7 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({ habitId }) => {
 
   return (
     <div className="flex justify-between items-center">
-      {getDates().map((date, index) => (
+      {getDates().map((date) => (
         <div key={date.toISOString()} className="flex flex-col items-center">
           <div className="text-sm text-gray-500 mb-2">
             {date.toLocaleDateString('en-US', { weekday: 'short' })}

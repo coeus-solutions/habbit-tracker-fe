@@ -1,58 +1,42 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { habitsApi, CreateHabitData } from '../utils/api';
-
-interface HabitEntry {
-  id: string;
-  habit_id: string;
-  completed_at: string;
-}
-
-interface Habit {
-  id: string;
-  name: string;
-  category: string;
-  color: string;
-  description?: string;
-  created_at: string;
-  is_archived: boolean;
-  streak_count: number;
-  longest_streak: number;
-  entries?: HabitEntry[];
-}
+import { createSlice, createAsyncThunk, Draft } from '@reduxjs/toolkit';
+import type { Habit, HabitEntry } from '../utils/api';
+import { habitsApi } from '../utils/api';
 
 interface HabitState {
   habits: Habit[];
   loading: boolean;
   error: string | null;
+  completions: Record<string, Array<{ date: string }>>;
 }
 
 const initialState: HabitState = {
   habits: [],
   loading: false,
   error: null,
+  completions: {},
 };
 
 export const fetchHabits = createAsyncThunk<Habit[]>(
   'habits/fetchHabits',
   async () => {
     const response = await habitsApi.getHabits();
-    return response as Habit[];
+    return response;
   }
 );
 
-export const createHabit = createAsyncThunk<Habit, CreateHabitData>(
+export const createHabit = createAsyncThunk<Habit, Habit>(
   'habits/createHabit',
-  async (data: CreateHabitData) => {
+  async (data: Habit) => {
     const response = await habitsApi.createHabit(data);
-    return response as Habit;
+    return response;
   }
 );
 
-export const updateHabit = createAsyncThunk<Habit, { id: string; data: Partial<CreateHabitData> }>(
+export const updateHabit = createAsyncThunk<Habit, { id: string; data: Partial<Habit> }>(
   'habits/updateHabit',
   async ({ id, data }) => {
     const response = await habitsApi.updateHabit(id, data);
-    return response as Habit;
+    return response;
   }
 );
 
@@ -156,10 +140,9 @@ const habitSlice = createSlice({
         state.loading = false;
         const habit = state.habits.find(h => h.id === action.payload.habitId);
         if (habit) {
-          if (!habit.entries) {
-            habit.entries = [];
-          }
-          habit.entries.push(action.payload.entry);
+          const habitWithEntries = habit as Draft<Habit & { entries: HabitEntry[] }>;
+          habitWithEntries.entries = habitWithEntries.entries || [];
+          habitWithEntries.entries.push(action.payload.entry);
         }
       })
       .addCase(addEntry.rejected, (state, action) => {
@@ -175,7 +158,8 @@ const habitSlice = createSlice({
         state.loading = false;
         const habit = state.habits.find(h => h.id === action.payload.habitId);
         if (habit) {
-          habit.entries = action.payload.entries;
+          const habitWithEntries = habit as Draft<Habit & { entries: HabitEntry[] }>;
+          habitWithEntries.entries = action.payload.entries;
         }
       })
       .addCase(fetchEntries.rejected, (state, action) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { format, isToday } from 'date-fns';
 import { CheckIcon } from '@heroicons/react/24/solid';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Switch } from '../../ui/Switch';
 import { useSettings } from '../../../hooks/useSettings';
 

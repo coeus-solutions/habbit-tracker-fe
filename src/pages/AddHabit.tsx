@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Header } from '../components/layout/Header';
 import { AddHabitForm } from '../components/forms/AddHabitForm';
 import { Link } from 'react-router-dom';
